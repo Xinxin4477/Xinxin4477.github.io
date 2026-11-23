@@ -128,13 +128,14 @@
       button.disabled = true;
       button.textContent = 'กำลังบันทึก...';
       try {
-        const response = await fetch(APPS_SCRIPT_URL, {
+        await fetch(APPS_SCRIPT_URL, {
           method: 'POST',
+          // Apps Script Web App ไม่อนุญาต CORS จาก GitHub Pages
+          // โหมดนี้ส่งข้อมูลได้ แต่เบราว์เซอร์จะอ่านผลตอบกลับไม่ได้
+          mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify(data)
         });
-        const result = await response.json();
-        if (!result.ok) throw new Error(result.message || 'ไม่สามารถบันทึกข้อมูลได้');
         alert('ขอบคุณสำหรับการประเมินของท่าน');
         form.reset();
         document.getElementById('answered').textContent = '0';

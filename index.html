@@ -87,6 +87,10 @@
     </form>
   </main>
   <script>
+    // วาง URL จาก Apps Script ที่ Deploy แบบ Web app ไว้ตรงนี้
+    // ตัวอย่าง: https://script.google.com/macros/s/AKfycb.../exec
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFd9CeC2cDK-QdGcbw0K71mNc5Z77deCYIEcb5SsU3WUyONCbB8vW_fj13yngRnNNv/exec';
+
     const sections = [
       ['ด้านที่ 1 · การเข้าถึงและขั้นตอนบริการ',['ความสะดวกในการค้นหาข้อมูลก่อนมารับบริการ','ความสะดวกในการเดินทางและเข้าถึงโรงพยาบาล','ความชัดเจนของขั้นตอนการลงทะเบียน','ระยะเวลารอคอยรับบริการ','ความสะดวกในการติดต่อสอบถามและนัดหมาย']],
       ['ด้านที่ 2 · บุคลากรและการสื่อสาร',['ความสุภาพและอัธยาศัยของเจ้าหน้าที่','ความเอาใจใส่ในการให้บริการ','ความชัดเจนของคำอธิบายจากบุคลากร','การรับฟังข้อสงสัยและความกังวลของท่าน','การให้ข้อมูลเกี่ยวกับขั้นตอนถัดไป']],
@@ -97,7 +101,50 @@
     holder.innerHTML = sections.map(([title,items]) => `<section class="group"><h3>${title}</h3>${items.map(text => { number++; return `<fieldset class="question"><legend>${number}. ${text}</legend><div class="scores">${[1,2,3,4,5].map(n => `<label class="score"><input required type="radio" name="q${number}" value="${n}"><span>${n}</span></label>`).join('')}</div></fieldset>` }).join('')}</section>`).join('');
     document.getElementById('total').textContent = number;
     document.addEventListener('change', e => { if(e.target.matches('.score input')) document.getElementById('answered').textContent = document.querySelectorAll('.score input:checked').length; });
-    document.getElementById('evaluation').addEventListener('submit', e => { if(!e.target.checkValidity()){ return; } e.preventDefault(); alert('ขอบคุณสำหรับการประเมินของท่าน'); });
+    document.getElementById('evaluation').addEventListener('submit', async e => {
+      if (!e.target.checkValidity()) return;
+      e.preventDefault();
+
+      if (APPS_SCRIPT_URL === 'วาง_URL_Apps_Script_ที่นี่') {
+        alert('กรุณากำหนด URL ของ Apps Script ในไฟล์ index.html ก่อนใช้งาน');
+        return;
+      }
+
+      const form = e.target;
+      const button = form.querySelector('button[type="submit"]');
+      const data = {
+        gender: document.getElementById('gender').value,
+        age: document.getElementById('age').value,
+        education: document.getElementById('education').value,
+        career: document.getElementById('career').value,
+        visit: document.getElementById('visit').value,
+        department: document.getElementById('department').value,
+        times: document.getElementById('times').value,
+        rights: document.getElementById('rights').value,
+        suggestions: document.getElementById('suggestions').value
+      };
+      for (let i = 1; i <= 20; i++) data['q' + i] = form.querySelector(`input[name="q${i}"]:checked`).value;
+
+      button.disabled = true;
+      button.textContent = 'กำลังบันทึก...';
+      try {
+        const response = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        if (!result.ok) throw new Error(result.message || 'ไม่สามารถบันทึกข้อมูลได้');
+        alert('ขอบคุณสำหรับการประเมินของท่าน');
+        form.reset();
+        document.getElementById('answered').textContent = '0';
+      } catch (error) {
+        alert('บันทึกข้อมูลไม่สำเร็จ: ' + error.message);
+      } finally {
+        button.disabled = false;
+        button.textContent = 'ส่งแบบประเมิน';
+      }
+    });
   </script>
 </body>
 </html>

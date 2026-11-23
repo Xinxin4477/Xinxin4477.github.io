@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>แบบประเมินความพึงพอใจ | โรงพยาบาลกระบี่</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap');
+    :root { --brown:#70472f; --text:#4b3b34; --muted:#897d75; --line:#e9cfb4; --orange:#dfa15b; --cream:#fffdf9; --page:#fbf3e7; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:'Noto Sans Thai',Tahoma,sans-serif; color:var(--text); background:radial-gradient(circle at 52% 11%,#ffe9c4 0,#faecd7 29%,#fbf6ee 70%); font-size:16px; }
+    .topbar { height:98px; background:var(--brown); color:#fff; }
+    .nav { max-width:1110px; height:100%; margin:auto; display:flex; align-items:center; justify-content:space-between; }
+    .brand small { display:block; color:#ffd090; font-weight:700; font-size:14px; letter-spacing:.1px; line-height:1.2; }
+    .brand strong { display:block; font-size:29px; line-height:1.25; font-weight:700; letter-spacing:-.6px; }
+    .tabs { display:flex; align-items:center; background:rgba(255,255,255,.12); border-radius:17px; padding:4px; gap:2px; font-weight:700; font-size:14px; }
+    .tabs a { color:#fff; text-decoration:none; padding:9px 15px; border-radius:13px; }
+    .tabs a.active { background:#694129; box-shadow:0 0 0 4px rgba(255,255,255,.12); }
+    .intro { max-width:1104px; margin:48px auto 31px; }
+    .eyebrow { color:#a9683d; font-size:14px; font-weight:700; margin:0 0 3px; }
+    h1 { font-size:25px; line-height:1.35; margin:0 0 5px; letter-spacing:-.4px; }
+    .intro > p { margin:0; color:#857970; font-size:15px; }
+    .profile { max-width:1104px; margin:0 auto 24px; padding:32px; background:rgba(255,255,255,.86); border:1px solid #ecd7bf; border-radius:24px; box-shadow:0 12px 28px rgba(119,82,46,.05); }
+    .section-head { display:flex; align-items:center; gap:12px; margin-bottom:2px; }
+    .step { width:42px; height:40px; border-radius:12px; display:grid; place-items:center; background:#fde9ca; font-weight:700; }
+    h2 { margin:0; font-size:20px; }
+    .help { margin:1px 0 21px; color:#83766d; font-size:15px; }
+    .fields { display:grid; grid-template-columns:1fr 1fr; gap:17px 20px; }
+    .field label { display:block; font-size:14px; font-weight:700; margin-bottom:6px; }
+    select { width:100%; appearance:auto; font:inherit; color:#63574f; border:1px solid #e3c7aa; border-radius:12px; background:#fffdfb; padding:10px 15px; height:47px; outline:none; }
+    select:focus { border-color:#d99b49; box-shadow:0 0 0 3px #ffe5bd; }
+    .survey { max-width:1104px; margin:0 auto 56px; padding:30px 32px 42px; background:rgba(255,255,255,.88); border:1px solid #ecd7bf; border-radius:24px; }
+    .survey-title { display:flex; align-items:start; justify-content:space-between; margin-bottom:23px; }
+    .survey-title h2 { font-size:20px; }
+    .survey-title p { margin:0; font-size:14px; color:#786a60; }
+    .counter { flex:none; margin-top:4px; padding:8px 17px; border-radius:24px; color:#4c3b33; background:#fde8c7; font-size:14px; font-weight:700; }
+    .group { margin-top:28px; }
+    .group:first-of-type { margin-top:0; }
+    .group h3 { margin:0 0 14px; padding-left:13px; border-left:5px solid var(--orange); line-height:22px; font-size:16px; }
+    .question { background:#fffdfa; border:1px solid #ecd7bf; border-radius:17px; padding:15px 16px 17px; margin:0 0 16px; }
+    .question legend { padding:0; font-weight:600; font-size:15px; }
+    fieldset { min-width:0; border:0; margin:0; }
+    .scores { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-top:10px; }
+    .score { cursor:pointer; position:relative; }
+    .score input { position:absolute; opacity:0; inset:0; cursor:pointer; }
+    .score span { height:43px; display:grid; place-items:center; border:1px solid #e2c2a2; border-radius:12px; font-size:15px; font-weight:700; transition:.15s; }
+    .score:hover span { background:#fff1d9; }
+    .score input:checked + span { background:#fde9ca; border-color:#e3ae6e; }
+    .suggestion { margin-top:26px; padding:28px 32px 30px; background:#fffdfa; border:1px solid #ecd7bf; border-radius:24px; }
+    .suggestion label { display:block; margin-bottom:7px; font-size:15px; font-weight:700; }
+    textarea { display:block; width:100%; min-height:112px; resize:vertical; padding:11px 13px; border:1px solid #e3c7aa; border-radius:12px; background:#fff; color:var(--text); font:inherit; outline:none; }
+    textarea::placeholder { color:#a9adb8; }
+    textarea:focus { border-color:#d99b49; box-shadow:0 0 0 3px #ffe5bd; }
+    .finish { display:flex; justify-content:flex-start; margin-top:30px; }
+    button[type=submit] { border:0; border-radius:12px; background:var(--brown); color:#fff; font:700 15px inherit; padding:12px 23px; cursor:pointer; }
+    @media(max-width:700px) { .topbar{height:auto}.nav{padding:16px 20px}.brand strong{font-size:20px}.tabs{display:none}.intro,.profile,.survey{margin-left:16px;margin-right:16px}.intro{margin-top:30px}.profile,.survey,.suggestion{padding:22px 18px;border-radius:18px}.fields{grid-template-columns:1fr}.survey-title{gap:10px}.scores{gap:5px}.score span{height:40px} }
+  </style>
+</head>
+<body>
+  <header class="topbar"><nav class="nav">
+    <div class="brand"><small>KRABI HOSPITAL · SERVICE EXPERIENCE</small><strong>เสียงของคุณ ช่วยให้เราดูแลดีขึ้น</strong></div>
+    <div class="tabs"><a href="#survey" class="active">แบบประเมิน</a><a href="#">Dashboard</a></div>
+  </nav></header>
+  <main>
+    <section class="intro"><div class="eyebrow">แบบสำรวจคุณภาพบริการ</div><h1>แบบประเมินความพึงพอใจในการเข้ารับการรักษาและการบริการ</h1><p>โรงพยาบาลกระบี่ จังหวัดกระบี่ · ใช้เวลาประมาณ 5 นาที กรุณาเลือกคะแนนที่ตรงกับประสบการณ์ของท่านมากที่สุด</p></section>
+    <form id="evaluation">
+      <section class="profile"><div class="section-head"><span class="step">01</span><h2>ข้อมูลทั่วไป</h2></div><p class="help">ข้อมูลนี้ใช้เพื่อสรุปผลการบริการเท่านั้น ไม่ต้องระบุชื่อหรือข้อมูลเวชระเบียน</p>
+        <div class="fields">
+          <div class="field"><label for="gender">เพศ *</label><select id="gender" required><option value="">เลือกเพศ</option><option>ชาย</option><option>หญิง</option><option>ไม่ประสงค์ระบุ</option></select></div>
+          <div class="field"><label for="age">ช่วงอายุ *</label><select id="age" required autofocus><option value="">เลือกช่วงอายุ</option><option>ต่ำกว่า 20 ปี</option><option>20 - 39 ปี</option><option>40 - 59 ปี</option><option>60 ปีขึ้นไป</option></select></div>
+          <div class="field"><label for="education">ระดับการศึกษา *</label><select id="education" required><option value="">เลือกระดับการศึกษา</option><option>ประถมศึกษา</option><option>มัธยมศึกษา</option><option>ปริญญาตรี</option><option>สูงกว่าปริญญาตรี</option></select></div>
+          <div class="field"><label for="career">อาชีพ *</label><select id="career" required><option value="">เลือกอาชีพ</option><option>ข้าราชการ</option><option>พนักงานบริษัท</option><option>ธุรกิจส่วนตัว</option><option>อื่น ๆ</option></select></div>
+          <div class="field"><label for="visit">ประเภทการเข้ารับบริการ *</label><select id="visit" required><option value="">เลือกประเภท</option><option>ผู้ป่วยนอก</option><option>ผู้ป่วยใน</option><option>ฉุกเฉิน</option></select></div>
+          <div class="field"><label for="department">แผนกที่รับบริการ *</label><select id="department" required><option value="">เลือกแผนก</option><option>อายุรกรรม</option><option>ศัลยกรรม</option><option>กุมารเวชกรรม</option><option>ทันตกรรม</option></select></div>
+          <div class="field"><label for="times">จำนวนครั้งที่เคยใช้บริการ *</label><select id="times" required><option value="">เลือกจำนวนครั้ง</option><option>ครั้งแรก</option><option>2 - 5 ครั้ง</option><option>มากกว่า 5 ครั้ง</option></select></div>
+          <div class="field"><label for="rights">สิทธิการรักษา *</label><select id="rights" required><option value="">เลือกสิทธิ</option><option>บัตรทอง</option><option>ประกันสังคม</option><option>ข้าราชการ</option><option>ชำระเงินเอง</option></select></div>
+        </div>
+      </section>
+      <section class="survey" id="survey"><div class="survey-title"><div><h2>ประเมินความพึงพอใจ</h2><p>1 = น้อยที่สุด · 2 = น้อย · 3 = ปานกลาง · 4 = มาก · 5 = มากที่สุด</p></div><div class="counter"><span id="answered">0</span> / <span id="total">20</span> ข้อ</div></div>
+        <div id="questions"></div>
+        <div class="suggestion">
+          <label for="suggestions">ข้อเสนอแนะเพิ่มเติม (ไม่บังคับ)</label>
+          <textarea id="suggestions" name="suggestions" placeholder="เล่าประสบการณ์หรือข้อเสนอแนะของท่าน"></textarea>
+          <div class="finish"><button type="submit">ส่งแบบประเมิน</button></div>
+        </div>
+      </section>
+    </form>
+  </main>
+  <script>
+    const sections = [
+      ['ด้านที่ 1 · การเข้าถึงและขั้นตอนบริการ',['ความสะดวกในการค้นหาข้อมูลก่อนมารับบริการ','ความสะดวกในการเดินทางและเข้าถึงโรงพยาบาล','ความชัดเจนของขั้นตอนการลงทะเบียน','ระยะเวลารอคอยรับบริการ','ความสะดวกในการติดต่อสอบถามและนัดหมาย']],
+      ['ด้านที่ 2 · บุคลากรและการสื่อสาร',['ความสุภาพและอัธยาศัยของเจ้าหน้าที่','ความเอาใจใส่ในการให้บริการ','ความชัดเจนของคำอธิบายจากบุคลากร','การรับฟังข้อสงสัยและความกังวลของท่าน','การให้ข้อมูลเกี่ยวกับขั้นตอนถัดไป']],
+      ['ด้านที่ 3 · คุณภาพการดูแลรักษา',['ความมั่นใจต่อการดูแลรักษา','ความครบถ้วนของการตรวจและประเมิน','ความชัดเจนของคำแนะนำในการดูแลตนเอง','การคำนึงถึงความเป็นส่วนตัวระหว่างรับบริการ','ความพึงพอใจต่อคุณภาพการดูแลโดยรวม']],
+      ['ด้านที่ 4 · สถานที่และสิ่งอำนวยความสะดวก',['ความสะอาดของพื้นที่ให้บริการ','ความสะดวกสบายของพื้นที่นั่งรอ','ป้ายและข้อมูลภายในโรงพยาบาล','ความเพียงพอของสิ่งอำนวยความสะดวก','ความพึงพอใจต่อสถานที่โดยรวม']]
+    ];
+    const holder = document.getElementById('questions'); let number = 0;
+    holder.innerHTML = sections.map(([title,items]) => `<section class="group"><h3>${title}</h3>${items.map(text => { number++; return `<fieldset class="question"><legend>${number}. ${text}</legend><div class="scores">${[1,2,3,4,5].map(n => `<label class="score"><input required type="radio" name="q${number}" value="${n}"><span>${n}</span></label>`).join('')}</div></fieldset>` }).join('')}</section>`).join('');
+    document.getElementById('total').textContent = number;
+    document.addEventListener('change', e => { if(e.target.matches('.score input')) document.getElementById('answered').textContent = document.querySelectorAll('.score input:checked').length; });
+    document.getElementById('evaluation').addEventListener('submit', e => { if(!e.target.checkValidity()){ return; } e.preventDefault(); alert('ขอบคุณสำหรับการประเมินของท่าน'); });
+  </script>
+</body>
+</html>
